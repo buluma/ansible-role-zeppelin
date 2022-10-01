@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    - zeppelin_java_version: "{{ lookup('env','JAVA_VERSION') | default('11', True) }}"
+    - zeppelin_working_directory: /zeppelin_working_directory
+    - zeppelin_mem: "-Xmx512m -XX:MaxPermSize=256m"
+  tasks:
+    - name: "Include buluma.zeppelin"
+      include_role:
+        name: "buluma.zeppelin"
+  post_tasks:
+    - name: Restart any services before running the tests
+      meta: flush_handlers

@@ -1,0 +1,68 @@
+---
+#
+# Ansible managed
+#
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+driver:
+  name: docker
+platforms:
+  - name: zeppelin-ubuntu
+    image: "buluma/docker-ubuntu2204-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    exposed_ports:
+      - 8080/tcp
+    published_ports:
+      - 0.0.0.0:8080:8080/tcp
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_legacy_silent
+    ssh_connection:
+      pipelining: true
+verifier:
+  name: ansible
+scenario:
+  create_sequence:
+    - create
+    - prepare
+  check_sequence:
+    - cleanup
+    - destroy
+    - create
+    - prepare
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - create
+    - prepare
+    - converge
+  destroy_sequence:
+    - cleanup
+    - destroy
+  test_sequence:
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

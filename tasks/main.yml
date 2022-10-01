@@ -1,0 +1,153 @@
+---
+- name: Include OS family specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Include OS specific tasks
+  include_tasks: "{{ ansible_os_family }}.yml"
+
+- name: Create the zeppelin group
+  group:
+    name: "{{ zeppelin_service_group }}"
+    state: present
+    system: true
+
+- name: Create the zeppelin user
+  user:
+    name: "{{ zeppelin_service_username }}"
+    groups: "{{ zeppelin_service_group }}"
+    append: true
+    shell: /bin/bash
+
+- name: Update system repositories (Debian)
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+  changed_when: false
+  when: ansible_os_family == 'Debian'
+
+# See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
+- name: Ensure 'man' directory exists.
+  file:
+    path: /usr/share/man/man1
+    state: directory
+    recurse: true
+  when:
+    - ansible_distribution == 'Ubuntu'
+
+- name: Install common packages
+  package: name={{ item }}
+  with_items: "{{ zeppelin_packages }}"
+  register: zeppelin_common_install
+  until: zeppelin_common_install is success
+  retries: 10
+  delay: 2
+
+- name: Install java packages
+  package: name={{ item }}
+  with_items: "{{ zeppelin_java_package[zeppelin_java_version|string] }}"
+  register: zeppelin_java_install
+  until: zeppelin_java_install is success
+  retries: 10
+  delay: 2
+
+- name: Set Java home from system packages
+  set_fact:
+    zeppelin_java_home: "{{ zeppelin_java_package_home[zeppelin_java_version|string] }}"
+  when: not (zeppelin_java_home | default)
+
+#
+# Install Zeppelin
+#
+- name: Create the zeppelin_working_directory
+  file:
+    path: "{{ zeppelin_working_directory }}"
+    state: directory
+    mode: 0755
+    owner: "{{ zeppelin_service_username }}"
+    group: "{{ zeppelin_service_group }}"
+
+- name: Check if the version of Zeppelin already exists
+  stat:
+    path: "/opt/zeppelin-{{ zeppelin_version }}-bin-all"
+  register: zeppelin_install_path
+
+- name: Download Zeppelin
+  get_url:
+    url: "{{ zeppelin_download_url }}"
+    dest: "/tmp/zeppelin-{{ zeppelin_version }}.tgz"
+  when: not zeppelin_install_path.stat.exists
+
+- name: Extract Zeppelin into the install directory
+  unarchive:
+    src: "/tmp/zeppelin-{{ zeppelin_version }}.tgz"
+    dest: "/opt/"
+    copy: false
+    owner: "{{ zeppelin_service_username }}"
+    group: "{{ zeppelin_service_group }}"
+  when: not zeppelin_install_path.stat.exists
+
+- name: Symlink /opt/zeppelin
+  file:
+    src: "/opt/zeppelin-{{ zeppelin_version }}-bin-all"
+    dest: /opt/zeppelin
+    owner: "{{ zeppelin_service_username }}"
+    group: "{{ zeppelin_service_group }}"
+    state: link
+  when: not zeppelin_install_path.stat.exists
+
+- name: Create the Zeppelin Site config file
+  template:
+    src: zeppelin-site.xml.j2
+    dest: /opt/zeppelin/conf/zeppelin-site.xml
+    owner: "{{ zeppelin_service_username }}"
+    group: "{{ zeppelin_service_group }}"
+    mode: 0644
+  notify: Restart zeppelin
+
+- name: Create the Zeppelin ENV config file
+  template:
+    src: zeppelin-env.sh.j2
+    dest: /opt/zeppelin/conf/zeppelin-env.sh
+    owner: "{{ zeppelin_service_username }}"
+    group: "{{ zeppelin_service_group }}"
+    mode: 0644
+  notify: Restart zeppelin
+
+- name: Create the Zeppelin authentication config file
+  template:
+    src: shiro.ini.j2
+    dest: /opt/zeppelin/conf/shiro.ini
+    owner: "{{ zeppelin_service_username }}"
+    group: "{{ zeppelin_service_group }}"
+    mode: 0644
+  notify: Restart zeppelin
+
+# In order to prevent "Restart zeppelin" handler from running when the "service" tag is skipped, set the
+# service_control fact to False and only set the service_control fact to True if the "service" tag isn't skipped.
+# In the handler yml. Only run the task when service_control is True.
+- name: Set the service_control fact to False
+  set_fact: service_control=False
+
+- name: Change the service_control fact to True
+  set_fact: service_control=True
+  tags:
+    - service
+
+- name: Copy the Zeppelin systemd service file
+  template:
+    src: zeppelin.service.j2
+    dest: /etc/systemd/system/zeppelin.service
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_distribution_version != '14.04'
+  tags:
+    - service
+
+- name: Ensure Zeppelin is started and enabled on boot
+  service:
+    name: zeppelin
+    state: started
+    enabled: true
+  tags:
+    - service

@@ -1,0 +1,8 @@
+---
+#
+# Ansible managed
+#
+repository:
+  description: Ansible Role for zeppelin installation
+  homepage: https://buluma.github.io/
+  topics: zeppelin, ansible, molecule, tox, playbook, hacktoberfest

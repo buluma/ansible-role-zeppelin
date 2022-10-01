@@ -1,0 +1,7 @@
+---
+# Only restart the Zeppelin service when the service_control fact is True
+- name: Restart zeppelin
+  service:
+    name: zeppelin
+    state: restarted
+  when: service_control
