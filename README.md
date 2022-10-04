@@ -4,7 +4,7 @@ Ansible Role for zeppelin installation
 
 |GitHub|GitLab|Quality|Downloads|Version|Issues|Pull Requests|
 |------|------|-------|---------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-zeppelin/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-zeppelin/actions)|[![gitlab](https://gitlab.com/buluma/ansible-role-zeppelin/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-zeppelin)|[![quality](https://img.shields.io/ansible/quality/)](https://galaxy.ansible.com/buluma/zeppelin)|[![downloads](https://img.shields.io/ansible/role/d/)](https://galaxy.ansible.com/buluma/zeppelin)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/pulls/)|
+|[![github](https://github.com/buluma/ansible-role-zeppelin/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-zeppelin/actions)|[![gitlab](https://gitlab.com/buluma/ansible-role-zeppelin/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-zeppelin)|[![quality](https://img.shields.io/ansible/quality/60571)](https://galaxy.ansible.com/buluma/zeppelin)|[![downloads](https://img.shields.io/ansible/role/d/60571)](https://galaxy.ansible.com/buluma/zeppelin)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/pulls/)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -20,11 +20,11 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
     - zeppelin_mem: "-Xmx512m -XX:MaxPermSize=256m"
   tasks:
     - name: "Include buluma.zeppelin"
-      include_role:
+      ansible.builtin.include_role:
         name: "buluma.zeppelin"
   post_tasks:
     - name: Restart any services before running the tests
-      meta: flush_handlers
+      ansible.builtin.meta: flush_handlers
 ```
 
 The machine needs to be prepared. In CI this is done using `molecule/default/prepare.yml`:
@@ -156,6 +156,15 @@ zeppelin_global_session_timeout: 86400000
 
 - pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-zeppelin/blob/main/requirements.txt).
 
+## [Status of used roles](#status-of-requirements)
+
+The following roles are used to prepare a system. You can prepare your system in another way.
+
+| Requirement | GitHub | GitLab |
+|-------------|--------|--------|
+|[buluma.bootstrap](https://galaxy.ansible.com/buluma/bootstrap)|[![Build Status GitHub](https://github.com/buluma/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-bootstrap/actions)|[![Build Status GitLab ](https://gitlab.com/buluma/ansible-role-bootstrap/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-bootstrap)|
+|[buluma.python_pip](https://galaxy.ansible.com/buluma/python_pip)|[![Build Status GitHub](https://github.com/buluma/ansible-role-python_pip/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-python_pip/actions)|[![Build Status GitLab ](https://gitlab.com/buluma/ansible-role-python_pip/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-python_pip)|
+|[buluma.pip](https://galaxy.ansible.com/buluma/pip)|[![Build Status GitHub](https://github.com/buluma/ansible-role-pip/workflows/Ansible%20Molecule/badge.svg)](https://github.com/buluma/ansible-role-pip/actions)|[![Build Status GitLab ](https://gitlab.com/buluma/ansible-role-pip/badges/master/pipeline.svg)](https://gitlab.com/buluma/ansible-role-pip)|
 
 ## [Context](#context)
 
