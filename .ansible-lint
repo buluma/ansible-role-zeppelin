@@ -12,3 +12,8 @@ exclude_paths:
   - ./.cache
   - ./.github
   - ./requirements.yml
+
+skip_list:
+  - var-naming
+  - fqcn-builtins
+  - risky-file-permissions

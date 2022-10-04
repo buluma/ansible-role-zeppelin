@@ -8,8 +8,8 @@
     - zeppelin_mem: "-Xmx512m -XX:MaxPermSize=256m"
   tasks:
     - name: "Include buluma.zeppelin"
-      include_role:
+      ansible.builtin.include_role:
         name: "buluma.zeppelin"
   post_tasks:
     - name: Restart any services before running the tests
-      meta: flush_handlers
+      ansible.builtin.meta: flush_handlers

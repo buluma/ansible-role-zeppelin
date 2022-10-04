@@ -6,20 +6,20 @@
   include_tasks: "{{ ansible_os_family }}.yml"
 
 - name: Create the zeppelin group
-  group:
+  ansible.builtin.group:
     name: "{{ zeppelin_service_group }}"
     state: present
     system: true
 
 - name: Create the zeppelin user
-  user:
+  ansible.builtin.user:
     name: "{{ zeppelin_service_username }}"
     groups: "{{ zeppelin_service_group }}"
     append: true
     shell: /bin/bash
 
 - name: Update system repositories (Debian)
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
   changed_when: false
@@ -27,7 +27,7 @@
 
 # See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
 - name: Ensure 'man' directory exists.
-  file:
+  ansible.builtin.file:
     path: /usr/share/man/man1
     state: directory
     recurse: true
@@ -51,7 +51,7 @@
   delay: 2
 
 - name: Set Java home from system packages
-  set_fact:
+  ansible.builtin.set_fact:
     zeppelin_java_home: "{{ zeppelin_java_package_home[zeppelin_java_version|string] }}"
   when: not (zeppelin_java_home | default)
 
@@ -59,7 +59,7 @@
 # Install Zeppelin
 #
 - name: Create the zeppelin_working_directory
-  file:
+  ansible.builtin.file:
     path: "{{ zeppelin_working_directory }}"
     state: directory
     mode: 0755
@@ -67,18 +67,18 @@
     group: "{{ zeppelin_service_group }}"
 
 - name: Check if the version of Zeppelin already exists
-  stat:
+  ansible.builtin.stat:
     path: "/opt/zeppelin-{{ zeppelin_version }}-bin-all"
   register: zeppelin_install_path
 
 - name: Download Zeppelin
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ zeppelin_download_url }}"
     dest: "/tmp/zeppelin-{{ zeppelin_version }}.tgz"
   when: not zeppelin_install_path.stat.exists
 
 - name: Extract Zeppelin into the install directory
-  unarchive:
+  ansible.builtin.unarchive:
     src: "/tmp/zeppelin-{{ zeppelin_version }}.tgz"
     dest: "/opt/"
     copy: false
@@ -87,7 +87,7 @@
   when: not zeppelin_install_path.stat.exists
 
 - name: Symlink /opt/zeppelin
-  file:
+  ansible.builtin.file:
     src: "/opt/zeppelin-{{ zeppelin_version }}-bin-all"
     dest: /opt/zeppelin
     owner: "{{ zeppelin_service_username }}"
@@ -96,7 +96,7 @@
   when: not zeppelin_install_path.stat.exists
 
 - name: Create the Zeppelin Site config file
-  template:
+  ansible.builtin.template:
     src: zeppelin-site.xml.j2
     dest: /opt/zeppelin/conf/zeppelin-site.xml
     owner: "{{ zeppelin_service_username }}"
@@ -105,7 +105,7 @@
   notify: Restart zeppelin
 
 - name: Create the Zeppelin ENV config file
-  template:
+  ansible.builtin.template:
     src: zeppelin-env.sh.j2
     dest: /opt/zeppelin/conf/zeppelin-env.sh
     owner: "{{ zeppelin_service_username }}"
@@ -114,7 +114,7 @@
   notify: Restart zeppelin
 
 - name: Create the Zeppelin authentication config file
-  template:
+  ansible.builtin.template:
     src: shiro.ini.j2
     dest: /opt/zeppelin/conf/shiro.ini
     owner: "{{ zeppelin_service_username }}"
@@ -134,7 +134,7 @@
     - service
 
 - name: Copy the Zeppelin systemd service file
-  template:
+  ansible.builtin.template:
     src: zeppelin.service.j2
     dest: /etc/systemd/system/zeppelin.service
     owner: root
@@ -145,7 +145,7 @@
     - service
 
 - name: Ensure Zeppelin is started and enabled on boot
-  service:
+  ansible.builtin.service:
     name: zeppelin
     state: started
     enabled: true
