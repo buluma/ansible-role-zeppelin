@@ -1,6 +1,6 @@
 ---
 roles:
-  - name: buluma.bootstrapbuluma.bootstrap
+  - name: buluma.bootstrap
   - name: buluma.python_pip
   - name: buluma.pip
 collections:
