@@ -5,7 +5,7 @@
   hosts: all
   gather_facts: false
   tasks:
-  -  name: Verify that Zeppelin is running on port 8080
-     uri:
-       url: http://127.0.0.1:8080
-       status_code: 200
+    -  name: Verify that Zeppelin is running on port 8080
+       uri:
+         url: http://127.0.0.1:8080
+         status_code: 200
