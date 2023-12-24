@@ -1,10 +1,10 @@
-# [Ansible role zeppelin](#zeppelin)
+# Ansible role [zeppelin](https://galaxy.ansible.com/ui/standalone/roles/buluma/zeppelin/documentation)
 
 Ansible Role for zeppelin installation
 
-|GitHub|Version|Issues|Pull Requests|
-|------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-zeppelin/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-zeppelin/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/pulls/)|
+|GitHub|Version|Issues|Pull Requests|Downloads|
+|------|-------|------|-------------|---------|
+|[![github](https://github.com/buluma/ansible-role-zeppelin/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-zeppelin/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-zeppelin.svg)](https://github.com/buluma/ansible-role-zeppelin/pulls/)|[![Ansible Role](https://img.shields.io/ansible/role/d/buluma/zeppelin)](https://galaxy.ansible.com/ui/standalone/roles/buluma/zeppelin/documentation)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -205,9 +205,7 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 
 ## [Author Information](#author-information)
 
-[buluma](https://buluma.github.io/)
+[Shadow Walker](https://buluma.github.io/)
 
-
-### [Special Thanks](#special-thanks)
 
 Template inspired by [Robert de Bock](https://github.com/robertdebock)
