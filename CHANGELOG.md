@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-zeppelin/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-zeppelin/compare/0.1.0...HEAD)
+
+**Closed issues:**
+
+- Update buluma/todo-to-issue-action@v1.0.1 @buluma [\#6](https://github.com/buluma/ansible-role-zeppelin/issues/6)
+
 ## [0.1.0](https://github.com/buluma/ansible-role-zeppelin/tree/0.1.0) (2022-10-04)
 
 [Full Changelog](https://github.com/buluma/ansible-role-zeppelin/compare/a0ae83e0fba0e25662941bcddb42cb325dde5c22...0.1.0)
