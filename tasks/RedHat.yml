@@ -1,12 +1,12 @@
 ---
-- name: redhat | Fail on unsupported java version (RedHat 7)
+- name: Redhat | Fail on unsupported java version (RedHat 7)
   ansible.builtin.fail:
     msg: "Java version must be 7, 8, 11 or latest"
   when:
     - zeppelin_java_version|string not in ["7", "8", "11", "latest"]
     - ansible_distribution_major_version == "7"
 
-- name: redhat | Fail on unsupported java version (RedHat 8)
+- name: Redhat | Fail on unsupported java version (RedHat 8)
   ansible.builtin.fail:
     msg: "Java version must be 8, 11 or latest"
   when:

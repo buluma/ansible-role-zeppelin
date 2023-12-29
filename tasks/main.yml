@@ -35,7 +35,7 @@
     - ansible_distribution == 'Ubuntu'
 
 - name: Install common packages
-  package: name={{ item }}
+  ansible.builtin.package: name={{ item }}
   with_items: "{{ zeppelin_packages }}"
   register: zeppelin_common_install
   until: zeppelin_common_install is success
@@ -43,7 +43,7 @@
   delay: 2
 
 - name: Install java packages
-  package: name={{ item }}
+  ansible.builtin.package: name={{ item }}
   with_items: "{{ zeppelin_java_package[zeppelin_java_version|string] }}"
   register: zeppelin_java_install
   until: zeppelin_java_install is success
