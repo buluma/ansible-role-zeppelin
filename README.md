@@ -84,13 +84,13 @@ zeppelin_notebook_s3_endpoint: s3.amazonaws.com
 zeppelin_notebook_s3_storage: org.apache.zeppelin.notebook.repo.S3NotebookRepo
 
 zeppelin_notebook_s3_storage_kms: false
-zeppelin_notebook_s3_kmsKeyID: AWS-KMS-Key-UUID
+zeppelin_notebook_s3_kms_key_id: AWS-KMS-Key-UUID
 
 zeppelin_notebook_s3_encryption_materials_provider: false
-zeppelin_notebook_s3_encryptionMaterialsProvider: provider implementation class name
+zeppelin_notebook_s3_encryption_materials_provider_class: provider implementation class name
 
 zeppelin_notebook_azure_storage_enabled: false
-zeppelin_notebook_azure_connectionString: DefaultEndpointsProtocol=https;AccountName=<accountName>;AccountKey=<accountKey>
+zeppelin_notebook_azure_connection_string: DefaultEndpointsProtocol=https;AccountName=<accountName>;AccountKey=<accountKey>
 zeppelin_notebook_azure_share: zeppelin
 zeppelin_notebook_azure_user: user
 zeppelin_notebook_azure_storage: org.apache.zeppelin.notebook.repo.AzureNotebookRepo

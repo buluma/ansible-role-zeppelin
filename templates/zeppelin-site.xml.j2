@@ -97,7 +97,7 @@
 <!-- See https://aws.amazon.com/kms/ and http://docs.aws.amazon.com/kms/latest/developerguide/concepts.html -->
 <property>
   <name>zeppelin.notebook.s3.kmsKeyID</name>
-  <value>{{ zeppelin_notebook_s3_kmsKeyID }}</value>
+  <value>{{ zeppelin_notebook_s3_kms_key_id }}</value>
   <description>AWS KMS key ID used to encrypt notebook data in S3</description>
 </property>
 {% endif %}
@@ -108,7 +108,7 @@
 <!-- See https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/model/EncryptionMaterialsProvider.html -->
 <property>
   <name>zeppelin.notebook.s3.encryptionMaterialsProvider</name>
-  <value>{{ zeppelin_notebook_s3_encryptionMaterialsProvider }}</value>
+  <value>{{ zeppelin_notebook_s3_encryption_materials_provider_class }}</value>
   <description>Custom encryption materials provider used to encrypt notebook data in S3</description>
 </property>
 {% endif %}
@@ -117,7 +117,7 @@
 <!-- If using Azure for storage use the following settings -->
 <property>
   <name>zeppelin.notebook.azure.connectionString</name>
-  <value>{{ zeppelin_notebook_azure_connectionString }}</value>
+  <value>{{ zeppelin_notebook_azure_connection_string }}</value>
   <description>Azure account credentials</description>
 </property>
 
